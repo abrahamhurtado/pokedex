@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "idb-keyval": "^6.2.1",
+    "immer": "^10.0.2",
     "pokeapi-typescript": "^2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
