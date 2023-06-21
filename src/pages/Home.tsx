@@ -1,22 +1,35 @@
-import { getPokemonResourceList, getPokemonByIdOrName } from '../api/client'
-import { INamedApiResourceList, IPokemon } from 'pokeapi-typescript'
-import { useLoaderData } from 'react-router-dom';
-import { Pokedex } from '../components/Pokedex/Pokedex'
-
-export async function loader() {
-  const { results } = await getPokemonResourceList() as INamedApiResourceList<IPokemon>;
-  const requests = results.map(({name}) => getPokemonByIdOrName(name));
-  const pokemon = await Promise.all(requests);
-
-  return pokemon;
-}
+import { useEffect } from 'react';
+import usePokedex from 'src/context/PokedexContext';
+import { getPokemon } from '../api/client';
+import { Pokedex } from '../components/Pokedex/Pokedex';
+import { PokemonMap } from '../types/types';
 
 export function Home() {
-  const pokemon = useLoaderData() as IPokemon[];
+  const { pokemonMap, setPokedex } = usePokedex();
+
+  useEffect(() => {
+    const pokemonMap: PokemonMap = {};
+
+    getPokemon()
+      .then((pokemonList) => {
+        pokemonList.forEach((pokemon) => {
+          const { id } = pokemon;
+          pokemonMap[id] = pokemon
+        });
+      })
+      .finally(() => {
+        setPokedex(pokemonMap)
+      })
+  }, [])
 
   return (
     <div>
-      <Pokedex pokemonList={pokemon} />
+      { (Object.keys(pokemonMap).length) ? (
+        <Pokedex pokemonMap={pokemonMap} />
+      ) : (
+        <div>Loading...</div>
+      )}
+
     </div>
   )
 }
