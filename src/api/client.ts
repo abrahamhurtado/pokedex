@@ -38,7 +38,7 @@ async function GET(uri: string, pagination?: Pagination): Promise<APIResource> {
     return cachedResponse;
   }
 
-  const response = await fetch(`${BASE_URL}/${uri}`, { headers });
+  const response = await fetch(`${BASE_URL}/${resource}`, { headers });
   const data = await response.json();
 
   await set(resource, data);
@@ -56,4 +56,10 @@ export async function getPokemonResourceList(pagination?: Pagination): Promise<I
   const URI = `pokemon`;
   const data = await GET(URI, pagination) as INamedApiResourceList<IPokemon>;
   return data;
+}
+
+export async function getPokemon(pagination?: Pagination): Promise<IPokemon[]> {
+  const { results } = await getPokemonResourceList(pagination) as INamedApiResourceList<IPokemon>;
+  const requests = results.map(({name}) => getPokemonByIdOrName(name));
+  return Promise.all(requests);
 }
