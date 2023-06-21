@@ -7,7 +7,8 @@ import {
 
 import App from './app/app';
 import { Pokemon } from './pages/Pokemon';
-import { Home, loader as homeLoader } from './pages/Home';
+import { Home } from './pages/Home';
+import { PokedexContextProvider } from './context/PokedexContextProvider';
 import './styles/index.scss'
 
 const router = createBrowserRouter([
@@ -17,8 +18,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
-        loader: homeLoader
+        element: <Home />
       },
       {
         path: 'pokemon/:id',
@@ -34,6 +34,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <PokedexContextProvider>
+      <RouterProvider router={router} />
+    </PokedexContextProvider>
   </StrictMode>
 );
