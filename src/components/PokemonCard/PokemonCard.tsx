@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { IPokemon } from "pokeapi-typescript"
 import { Link } from "react-router-dom"
+import { normalizeName } from "src/utils/normalizeName"
 
 interface PokemonElementProps {
   pokemon: IPokemon,
@@ -52,7 +53,7 @@ const PokemonCardContainer = styled.div`
 `;
 
 export const PokemonCard = (props: PokemonElementProps) => {
-  const { id, name, sprites: { front_default: sprite } } = props.pokemon as IPokemon;
+  const { id, species: { name }, sprites: { front_default: sprite } } = props.pokemon as IPokemon;
   
   const GUTTER_SIZE = 16;
 
@@ -71,7 +72,7 @@ export const PokemonCard = (props: PokemonElementProps) => {
       <Link to={`/pokemon/${name}`}>
         <img src={sprite} alt={name} />
         <small className="number">#{String(id).padStart(3, '0')}</small>
-        <h3 className="name">{name}</h3>
+        <h3 className="name">{normalizeName(name)}</h3>
       </Link>
     </PokemonCardContainer>
   )
