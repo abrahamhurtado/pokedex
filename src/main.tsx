@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import App from './app/app';
-import { Pokemon } from './pages/Pokemon';
+import { Pokemon, loader as pokemonLoader } from './pages/Pokemon';
 import { Home } from './pages/Home';
 import { PokedexContextProvider } from './context/PokedexContextProvider';
 import './styles/index.scss'
@@ -22,7 +22,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'pokemon/:id',
-        element: <Pokemon />
+        element: <Pokemon />,
+        loader: pokemonLoader
       },
     ]
   }
