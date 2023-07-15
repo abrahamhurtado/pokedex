@@ -1,4 +1,4 @@
-import { IPokemon, INamedApiResourceList } from 'pokeapi-typescript'
+import { IPokemon, INamedApiResourceList, IPokemonSpecies, IEvolutionChain } from 'pokeapi-typescript'
 import { get, set } from 'idb-keyval';
 
 const BASE_URL = "https://pokeapi.co/api/v2";
@@ -9,7 +9,7 @@ interface Pagination {
 }
 
 
-type APIResource = IPokemon | INamedApiResourceList<IPokemon>
+type APIResource = IPokemon | INamedApiResourceList<IPokemon> | IPokemonSpecies | IEvolutionChain;
 
 const buildPagination = (pagination?: Pagination): string => {
   if (!pagination) {
@@ -55,6 +55,18 @@ export async function getPokemonByIdOrName(identifier: string | number): Promise
 export async function getPokemonResourceList(pagination?: Pagination): Promise<INamedApiResourceList<IPokemon>> {
   const URI = `pokemon`;
   const data = await GET(URI, pagination) as INamedApiResourceList<IPokemon>;
+  return data;
+}
+
+export async function getPokemonSpecies(identifier: string | number): Promise<IPokemonSpecies> {
+  const URI = `pokemon-species/${identifier}`;
+  const data = await GET(URI) as IPokemonSpecies;
+  return data;
+}
+
+export async function getEvolutionChain(identifier: string | number): Promise<IEvolutionChain> {
+  const URI = `evolution-chain/${identifier}`;
+  const data = await GET(URI) as IEvolutionChain;
   return data;
 }
 
