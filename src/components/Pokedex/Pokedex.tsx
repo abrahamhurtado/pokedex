@@ -1,12 +1,13 @@
-import InfiniteLoader from "react-window-infinite-loader";
-import { FixedSizeGrid as Grid } from "react-window";
-import { PokemonCard, CARD_HEIGHT, CARD_WIDTH } from '../PokemonCard/PokemonCard';
-import styled from 'styled-components';
-import { PokemonMap } from 'src/types/types';
-import usePokedex from 'src/context/PokedexContext';
-import { getPokemon } from "src/api/client";
 import { produce } from "immer";
-import { FC } from 'react'
+import { FC } from 'react';
+import { FixedSizeGrid as Grid } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
+import { getPokemon } from "src/api/client";
+import usePokedex from 'src/context/PokedexContext';
+import { PokemonMap } from 'src/types/types';
+import { CARD_HEIGHT, CARD_WIDTH, PokemonCard } from '../PokemonCard/PokemonCard';
+
+import { styled } from '@styled-system/jsx'
 
 interface PokedexProps {
   pokemonMap: PokemonMap
@@ -17,12 +18,14 @@ const VISIBLE_ROWS = 3;
 const GUTTER_SIZE = 16;
 const TOTAL_NUMBER_OF_POKEMON = 1010;
 
-const PokedexWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 120px);
-`
+const PokedexWrapper = styled('div', {
+  base: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 'calc(100vh - 120px)'
+  }
+})
 
 export const Pokedex: FC<PokedexProps> = (props) => {
   const { setPokedex } = usePokedex();
