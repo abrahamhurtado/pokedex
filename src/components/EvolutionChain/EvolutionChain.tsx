@@ -1,18 +1,24 @@
-import { IChainLink } from 'pokeapi-typescript';
+import { INamedApiResource, IPokemonSpecies, IChainLink } from 'pokeapi-typescript';
+import { getEvolutionChain } from 'src/utils/getEvolutionChain';
+import { normalizeName } from 'src/utils/normalizeName';
 
 type EvolutionChainProps = {
   chain: IChainLink
 }
 
+type EvolutionChain = INamedApiResource<IPokemonSpecies>;
+
+
 export const EvolutionChain = ({ chain }: EvolutionChainProps) => {
-  const { evolves_to, species } = chain;
-  if (!evolves_to.length) {
-    return <span>{species.name}</span>
-  } 
-  return (
-    <>
-      <span>{species.name}</span> 
-      {evolves_to.flatMap((chainLink) => <EvolutionChain key={chainLink.species.name} chain={chainLink} />)}
-    </>
-  )
+  const evolutionChain = (getEvolutionChain(chain)) as EvolutionChain[][];
+  console.log(evolutionChain)
+  return <ul>
+    {evolutionChain.map((_evolutionChain) => <li key={Math.random()}>
+      <ul>
+        {_evolutionChain.map(({ name, url }) => <li key={url}>
+          {normalizeName(name)}
+        </li>)}
+      </ul>
+    </li>)}
+  </ul>
 }

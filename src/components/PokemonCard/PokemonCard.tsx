@@ -4,8 +4,9 @@ import { IPokemon } from "pokeapi-typescript"
 import { Link } from "react-router-dom"
 import { normalizeName } from "src/utils/normalizeName"
 import { styled } from "@styled-system/jsx"
+import { getPokemonSprite } from "src/utils/getPokemonSprite"
 interface PokemonElementProps {
-  pokemon: IPokemon,
+  pokemon: Partial<IPokemon>,
   style: React.CSSProperties
 }
 
@@ -83,7 +84,7 @@ export const PokemonCard = (props: PokemonElementProps) => {
   return (
     <PokemonCardContainer style={style}>
       <LinkWrapper to={`/pokemon/${name}`}>
-        <PokemonSprite src={sprite} alt={name} />
+        <PokemonSprite src={sprite ? sprite : getPokemonSprite(id)} alt={name} />
         <PokemonId className="number">#{String(id).padStart(3, '0')}</PokemonId>
         <PokemonName className="name">{normalizeName(name)}</PokemonName>
       </LinkWrapper>

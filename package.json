@@ -10,6 +10,10 @@
   },
   "private": true,
   "dependencies": {
+    "@dev/angular-sanitize": "^1.9.3",
+    "@dev/libpricing": "^4.11.6",
+    "@points/libpricing": "npm:@dev/libpricing@^4.11.6",
+    "angular": "npm:@dev/libpricing@^4.11.6",
     "idb-keyval": "^6.2.1",
     "immer": "^10.0.2",
     "pokeapi-typescript": "^2.1.0",
